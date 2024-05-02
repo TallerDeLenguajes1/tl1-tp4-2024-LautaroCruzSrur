@@ -102,6 +102,14 @@ Nodo *buscarNodo(Nodo *Star, int idBuscar)
     printf("\n-----------------------\n");
     return Aux;
 }
+//Poner un nodo para eliminar tarea 
+Nodo *QuitarNodo(Nodo **Inicio, int id){ 
+  Nodo ** aux = Inicio;
+  Nodo * anterior = *Inicio;
+  While(*aux && (*aux){
+   
+    }
+}
 void EliminarTarea(Nodo **Star,Nodo **StarRealizado, int id)
 {
     Nodo **aux = Star;
