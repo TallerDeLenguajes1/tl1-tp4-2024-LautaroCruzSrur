@@ -106,8 +106,12 @@ Nodo *buscarNodo(Nodo *Star, int idBuscar)
 Nodo *QuitarNodo(Nodo **Inicio, int id){ 
   Nodo ** aux = Inicio;
   Nodo * anterior = *Inicio;
-  While(*aux && (*aux){
-   
+  While(*aux && (*aux)->producto-> != id){
+        anterior = aux;
+       aux = &(*aux)->siguiente;
+    }
+   if(aux != NULL){
+      anterior->
     }
 }
 void EliminarTarea(Nodo **Star,Nodo **StarRealizado, int id)
