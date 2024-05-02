@@ -111,7 +111,9 @@ Nodo *QuitarNodo(Nodo **Inicio, int id){
        aux = &(*aux)->siguiente;
     }
    if(aux != NULL){
-      anterior->
+      anterior->siguiente = (*aux)->siguiente;
+      Nodo * nuevoaux = *aux;
+      nuevoaux->siguiente = NULL
     }
 }
 void EliminarTarea(Nodo **Star,Nodo **StarRealizado, int id)
