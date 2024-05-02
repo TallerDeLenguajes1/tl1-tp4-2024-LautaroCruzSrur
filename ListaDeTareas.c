@@ -53,8 +53,7 @@ void MostrarTareas(Nodo **Inicio)
     {
         printf("\n");
         printf("ID de Tarea: %d \n", Aux->T.TareaID);
-        printf("Descripcion: ");
-        puts(Aux->T.Descripcion);
+        printf("Descripcion: %s",Aux->T.Descripcion);
         printf("Duracion: %d \n", Aux->T.Duracion);
         Aux = Aux->Siguiente;
     }
@@ -69,7 +68,7 @@ void CrearTarea(Nodo **Star)
     {
         printf("Ingresa los datos de la tarea\n");
         printf("Descripcion: ");
-        gets(descripcion);
+        scanf("%s",&descripcion);
         fflush(stdin);
         printf("Ingresa una duracion entre 10 y 100: ");
         scanf("%d", &duracion);
@@ -188,7 +187,7 @@ int main()
         case 4:
             printf("Porfavor ingrese 1 si quiere buscar por id\n");
             printf("De lo contrario ingrese 2 para buscar por palabra clave\n");
-            scanf("%c", opcion);
+            scanf("%d",&opcion);
             if(opcion == 1){
                 Nodo *TareaBuscadaPorId = buscarNodo(Star , id);
                 if (TareaBuscadaPorId == NULL)
