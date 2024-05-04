@@ -53,7 +53,8 @@ void MostrarTareas(Nodo **Inicio)
     {
         printf("\n");
         printf("ID de Tarea: %d \n", Aux->T.TareaID);
-        printf("Descripcion: %s",Aux->T.Descripcion);
+        printf("Descripcion: ");
+        puts(Aux->T.Descripcion);
         printf("Duracion: %d \n", Aux->T.Duracion);
         Aux = Aux->Siguiente;
     }
@@ -77,7 +78,7 @@ void CrearTarea(Nodo **Star)
     {
         printf("Ingresa los datos de la tarea\n");
         printf("Descripcion: ");
-        scanf("%s",&descripcion);
+        gets(descripcion);
         fflush(stdin);
         printf("Ingresa una duracion entre 10 y 100: ");
         scanf("%d", &duracion);
@@ -120,20 +121,6 @@ Nodo *buscarNodo(Nodo *Star, int idBuscar)
     printf("\n-----------------------\n");
     }
     return Aux;
-}
-//Poner un nodo para eliminar tarea 
-Nodo *QuitarNodo(Nodo **Inicio, int id){ 
-  Nodo ** aux = Inicio;
-  Nodo * anterior = *Inicio;
-  While(*aux && (*aux)->producto-> != id){
-        anterior = aux;
-       aux = &(*aux)->siguiente;
-    }
-   if(aux != NULL){
-      anterior->siguiente = (*aux)->siguiente;
-      Nodo * nuevoaux = *aux;
-      nuevoaux->siguiente = NULL
-    }
 }
 void EliminarTarea(Nodo **Star,Nodo **StarRealizado, int id)
 {
@@ -228,16 +215,11 @@ int main()
            
             printf("Porfavor ingrese 1 si quiere buscar por id\n");
             printf("De lo contrario ingrese 2 para buscar por palabra clave\n");
-<<<<<<< HEAD
             scanf("%d",&bandera);
             fflush(stdin);
             if(bandera == 1){
                 printf("Ingrese el id\n");
                 scanf("%d",&id);
-=======
-            scanf("%d",&opcion);
-            if(opcion == 1){
->>>>>>> b759b2e053d60be98ca02fcd7ee991a0820b9af2
                 Nodo *TareaBuscadaPorId = buscarNodo(Star , id);
                 if (TareaBuscadaPorId == NULL)
                 {
