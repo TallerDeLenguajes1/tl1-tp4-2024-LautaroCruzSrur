@@ -38,10 +38,10 @@ Nodo *CrearNodo(char *descripcion, int duracion, int id)
 }
 
 // INSERTAR , CREA y MOSTRAR TAREA.
-void InsertarTarea(Nodo **Star, Nodo *NuevoNodo)
+void InsertarTarea(Nodo **Star, Nodo *NuevoNodo)// Función para insertar un nuevo nodo al principio de una lista enlazada
 {
-    NuevoNodo->Siguiente = *Star;
-    *Star = NuevoNodo;
+    NuevoNodo->Siguiente = *Star;// El puntero Siguiente del nuevo nodo se establece para apuntar al nodo que actualmente es el primero en la lista
+    *Star = NuevoNodo; //El puntero Star (que es un puntero a puntero) se actualiza para apuntar al nuevo nodo, lo que lo coloca la incio de la lista.
     printf("\n-----------------------\n");
     printf("Creado Tarea ID: %d \n", NuevoNodo->T.TareaID);
     printf("\n-----------------------\n");
@@ -58,6 +58,15 @@ void MostrarTareas(Nodo **Inicio)
         printf("Duracion: %d \n", Aux->T.Duracion);
         Aux = Aux->Siguiente;
     }
+}
+void MostrarTarea(Nodo **Inicio)
+{
+    Nodo *Aux = *Inicio;
+        printf("\n");
+        printf("ID de Tarea: %d \n", Aux->T.TareaID);
+        printf("Descripcion: ");
+        puts(Aux->T.Descripcion);
+        printf("Duracion: %d \n", Aux->T.Duracion);
 }
 void CrearTarea(Nodo **Star)
 {
@@ -91,6 +100,14 @@ void CrearTarea(Nodo **Star)
 }
 //*****
 // BUSCAR Y ELIMINAR TAREA.
+Nodo *QuitarNodoPorId(Nodo **Star, int id){
+    Nodo * Aux = *Star;
+    while (Aux != NULL && Aux->T.TareaID != id)
+    {
+        Aux= Aux->Siguiente;
+    }
+    return NULL;
+}
 Nodo *buscarNodo(Nodo *Star, int idBuscar)
 {
     Nodo *Aux = Star;
@@ -98,28 +115,37 @@ Nodo *buscarNodo(Nodo *Star, int idBuscar)
     {
         Aux = Aux->Siguiente;
     }
+    if(Aux != NULL){
     printf("\n-----------------------\n");
     printf("Nodo Encontrado: %d \n", Aux->T.TareaID);
     printf("\n-----------------------\n");
+    }
     return Aux;
 }
 void EliminarTarea(Nodo **Star,Nodo **StarRealizado, int id)
 {
-    Nodo **aux = Star;
-    while (*aux != NULL && (*aux)->T.TareaID != id)
+    Nodo *aux = *Star;
+    Nodo * anterior = NULL;
+    while (aux != NULL && aux->T.TareaID != id)
     {
-        aux = &(*aux)->Siguiente;
+        anterior = aux;
+        aux = aux->Siguiente;
     }
-    if (*aux)
+    if (aux != NULL)
     {
-        Nodo *temp = *aux;
-        // Nodo *TareaAEliminar = buscarNodo(Star , id);
-        InsertarTarea(StarRealizado , temp);
-        *aux = (*aux)->Siguiente;
-        free(temp);
+        if (anterior != NULL)
+        {
+        anterior->Siguiente = aux->Siguiente;
+        }else{
+            *Star = aux->Siguiente;
+        }
+        aux->Siguiente= NULL;
+        InsertarTarea(StarRealizado , aux);
         printf("\n-----------------------\n");
         printf("Tarea eliminada %d", id);
         printf("\n-----------------------\n");
+    }else{
+        printf("Tarea no encontrada");
     }
 }
 Nodo *buscarPalabra(Nodo *Star, const char *palabra) {
@@ -139,14 +165,14 @@ Nodo *buscarPalabra(Nodo *Star, const char *palabra) {
 
 int main()
 {
-    int id = 0 , opcion = 0;
+    int id = 0 , opcion = 0, bandera = 0;
     Nodo *Star = CrearListaVacia();
     Nodo *StarRealizado = CrearListaVacia();
 
     char continuar;
     do
     {
-        printf("Elija una opcion: \n");
+        printf("\nElija una opcion: \n");
         printf("----------------------");
         printf("\n 1) Agregar una Tarea \n");
         printf("----------------------");
@@ -186,28 +212,51 @@ int main()
             
             break;
         case 4:
+           
             printf("Porfavor ingrese 1 si quiere buscar por id\n");
             printf("De lo contrario ingrese 2 para buscar por palabra clave\n");
-            scanf("%c", opcion);
-            if(opcion == 1){
+            scanf("%d",&bandera);
+            fflush(stdin);
+            if(bandera == 1){
+                printf("Ingrese el id\n");
+                scanf("%d",&id);
                 Nodo *TareaBuscadaPorId = buscarNodo(Star , id);
                 if (TareaBuscadaPorId == NULL)
                 {
+                
                 Nodo *TareaBuscadaPorId = buscarNodo(StarRealizado , id);
-                MostrarTareas(&TareaBuscadaPorId);
+                if (TareaBuscadaPorId != NULL)
+                {
+                    printf("Tarea Realizada: ");
+                    MostrarTarea(&TareaBuscadaPorId);
                 }else{
-                    MostrarTareas(&TareaBuscadaPorId);
+                    printf("NO existe la tarea \n");
+                }
+                }else if(TareaBuscadaPorId){
+                    printf("Tarea Pendiente: ");
+                    MostrarTarea(&TareaBuscadaPorId);
+                    printf("\n");
+                }else{
+                    printf("NO existe la tarea \n");
                 }
                 
             }else{
                 char palabra[10];
+                printf("Ingrese la palabra a buscar \n");
+                scanf("%s", palabra);
                 Nodo *TareaBuscadaPorPalabra = buscarPalabra(Star, palabra);
                 if (TareaBuscadaPorPalabra == NULL)
                 {
                 Nodo *TareaBuscadaPorPalabra = buscarPalabra(StarRealizado , palabra);
-                MostrarTareas(&TareaBuscadaPorPalabra);
+                printf("Tarea Realizada: ");
+                MostrarTarea(&TareaBuscadaPorPalabra);
+                printf("\n");
+                }else if(TareaBuscadaPorPalabra){
+                    printf("Tarea Pendiente: ");
+                    MostrarTarea(&TareaBuscadaPorPalabra);
+                    printf("\n");
                 }else{
-                    MostrarTareas(&TareaBuscadaPorPalabra);
+                    printf("NO existe la tarea \n");
                 }
             }
             break;
